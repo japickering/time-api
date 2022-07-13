@@ -31,8 +31,20 @@ app.get('/time', function (req, res) {
     res.statusCode = 403;
     res.json({ message: 'access forbidden' });
   } else {
+    const now = Date.now();
+
     res.statusCode = 200;
-    res.json({ time: Date.now() });
+    res.json({
+      time: now,
+      properties: {
+        epoch: {
+          description: 'The current server time, in epoch seconds, at time of processing the request.',
+          type: 'number',
+        },
+      },
+      required: ['epoch'],
+      type: 'object',
+    });
   }
 });
 
@@ -42,16 +54,7 @@ app.get('/metrics', function (req, res) {
     res.json({ message: 'access forbidden' });
   } else {
     res.statusCode = 200;
-    res.json({
-      'properties': {
-        'epoch': {
-          'description': 'The current server time, in epoch seconds, at time of processing the request.',
-          'type': 'number',
-        },
-      },
-      'required': ['epoch'],
-      'type': 'object',
-    });
+    res.json({ 'message': 'access granted' });
   }
 });
 
